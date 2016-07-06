@@ -1,9 +1,9 @@
 import psycopg2
 
-class sql():
+class Sql():
 
-    cls.conn = None
-    cls.cursor = None
+    conn = None
+    cursor = None
 
     @classmethod
     def openDataBase(cls, dbname, user, host, password):

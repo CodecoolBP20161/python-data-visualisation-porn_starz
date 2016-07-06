@@ -4,6 +4,8 @@ from PIL import ImageDraw
 
 class text():
 
+    text_object_list = []
+
     def __init__(self, content, size, color, font, opacity):
 
         self.content = content
@@ -11,16 +13,25 @@ class text():
         self.color = color
         self.font = font
         self.opacity = opacity
+        text.text_object_list.append(self)
 
-    def place(self, img, x_coordinate, y_coordinate, rotate_rate=0):
+    def place(self, img, coordinates, rotate_rate=0):
 
         img.rotate(rotate_rate, expand=1)
         draw = ImageDraw.Draw(img)
-        draw.text((x_coordinate, y_coordinate), self.content, self.color, self.font)
+        draw.text((coordinates[0], coordinates[1]), self.content, self.color, self.font)
         img.rotate(rotate_rate*(-1), expand=1)
         return img
 
-  
+    def findPlace(self):
+
+        y_coordinate = 0
+        for text in text.text_object_list:
+            y_coordinate += text.textsize[1]
+        return [0, y_coordinate]
+
+
+
 
 
 
