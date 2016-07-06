@@ -93,6 +93,9 @@ pip-selfcheck.json
 venv/
 ENV/
 
+#IDEA folder
+.idea
+
 # Spyder project settings
 .spyderproject
 
