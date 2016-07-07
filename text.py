@@ -2,9 +2,16 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 
-class text():
+# using the data from sql we create a lot of text object, they all are in the text_object_list
+# with a for loop we calculate their length (calculate_length method)
+# the order list class method creates a list with the texts, ordered by the lengths of them
+# the x coordinates are fixed, the find_place instance method sets up all the y coordinates (in a for loop)
+# we use the place method, again in a for loop - all the text is written
+
+class Text():
 
     text_object_list = []
+    ordered_list = []
 
     def __init__(self, content, size, color, font, opacity):
 
@@ -13,46 +20,54 @@ class text():
         self.color = color
         self.font = font
         self.opacity = opacity
-        text.text_object_list.append(self)
+        self.length = 0
+        self.y = 0
+        self.x = 0
+        Text.text_object_list.append(self)
 
-    def place(self, img, coordinates, rotate_rate=0):
+    def place(self, img, rotate_rate=0):
 
         img.rotate(rotate_rate, expand=1)
         draw = ImageDraw.Draw(img)
-        draw.text((coordinates[0], coordinates[1]), self.content, self.color, self.font)
+        draw.text((self.x, self.y), self.content, self.color, self.font)
         img.rotate(rotate_rate*(-1), expand=1)
         return img
 
     def findPlace(self):
 
+        number_x = 0
+
+        for text in text.ordered_list:
+            if self.content == text.content:
+                break
+            else:
+               number_x += 1
+
         y_coordinate = 0
-        for text in text.text_object_list:
-            y_coordinate += text.textsize[1]
-        return [0, y_coordinate]
+        if number_x == 0:
+            y_coordinate = 0
+        else:
+            for text in text.ordered_list[:number_x]:
+                y_coordinate += text.size[1]
+        self.y = y_coordinate
 
+    def calculate_length(self):
 
+        font = ImageFont.truetype(self.font, self.size)
+        content = self.content
+        text_size = draw.textsize(content, font)
+        self.length = text_size[1]
 
+    @classmethod
+    def order_list(cls):
 
+        list_of_lengths = []
+        for text in cls.text_object_list:
+            list_of_lengths.append(text.length)
+        list_of_lengths = reverse(sort(list_of_lengths))
+        for length in list_of_lengths:
+            for text in cls.text_object_list:
+                if text.length == length:
+                    cls.ordered_list.append(text)
+                    cls.text_object_list.remove(text)
 
-
-
-
-
-
-
-
-img = Image.new("RGB", (512, 512), "red")
-draw = ImageDraw.Draw(img)
-# font = ImageFont.truetype(<font-file>, <font-size>)
-# font = ImageFont.truetype("sans-serif.ttf", 16)
-text_options = {
-    'fill': (255, 255, 255,255)
-}
-text_content = "Sample Text"
-text_size = draw.textsize(text_content)
-# draw.text((x, y),text_content,(r,g,b))
-draw.text((0, 0), text_content, **text_options)
-draw.text((0, text_size[1]), text_content, **text_options)
-draw.text((text_size[0], 0), text_content, **text_options)
-draw.text(text_size, text_content, **text_options)
-img.save('sample-out.png')
