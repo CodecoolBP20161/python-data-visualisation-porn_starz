@@ -37,7 +37,7 @@ class Text():
         img = img.rotate(rotate_rate*(-1), expand=1)
         return img
 
-    def findPlace(self):
+    def findPlace_halfPyramid(self):
 
         number_x = 0
 
@@ -75,4 +75,3 @@ class Text():
                 if text.length == length:
                     cls.ordered_list.append(text)
                     cls.text_object_list.remove(text)
-
