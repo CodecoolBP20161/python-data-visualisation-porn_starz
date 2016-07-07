@@ -2,12 +2,12 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
 from sqlhandling import Sql
-import text
+from text import Text
 
 
 picture = Image.new("RGB", (1024, 1024), "gold")
 
-Sql.openDataBase('csibi', 'csibi', 'localhost', 'csibi')
+Sql.openDataBase('csibi', 'postgres', 'localhost', 'csibi')
 Sql.writeQuery(''' SELECT company_name as "Companies", count(company_name) as "Projects" FROM project
 GROUP BY company_name ORDER BY count(company_name) DESC''')
 first_tuple_list = Sql.getData()
@@ -34,10 +34,8 @@ for color_list in first_list: # [company_name, projects,  [(hex1,), (hex2)...]]
     else:
         continue
 
-
-
-
-print(first_list)
+for text_info in first_list:
+    text = Text(text_info[0], text_info[1]*3, tuple(text_info[2]), "Capture_it.ttf", 255)
 
 
 
