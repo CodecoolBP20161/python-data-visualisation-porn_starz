@@ -38,5 +38,7 @@ for project in first_list:
 
 # Sort the class list based on the object attribute size, which is based on the desired factor(budget)
 Text.order_list()
-# Na itt az ordered_list készen, már csak ki kell íratni a randommal. A fonttype_list-re nem fog hibát kiírni, megjavítottam :D
+# Na itt az ordered_list készen, már csak ki kell íratni a randommal. A fonttype_list-re nem
+# fog hibát kiírni, az is mehet randommal, meg esetleg a rotate is lehetne random.choice(0, 90, 270)
+# sok sikert a demóhoz!
 picture.save("SecondAssignment.png")
