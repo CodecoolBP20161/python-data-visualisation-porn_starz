@@ -4,13 +4,13 @@ from PIL import ImageDraw
 from sqlhandling import Sql
 from text import Text
 import random
-picture = Image.new("RGB", (400, 1000), "white")
+picture = Image.new("RGB", (1500, 1500), "Cyan")
 Sql.openDataBase('csibi', 'csibi', 'localhost', 'csibi')
 Sql.writeQuery(''' SELECT name, budget_value, budget_currency, main_color FROM project
 WHERE project IS NOT NULL;''')
 first_tuple_list = Sql.getData()
-fonttype_list = ["Fonts/AlexBrush-Regular.ttf", "Fonts/Capture_it.ttf", "Fonts/Capture_it_2.ttf", "Fonts/FFF_tusj.ttf",
-                 "Fonts/OpenSans-Bold.ttf", "Fonts/Pacifico.ttf", "Fonts/SEASRN__.ttf"]
+fonttype_list = ["Fonts/Capture_it.ttf", "Fonts/OpenSans-Bold.ttf", "Fonts/AlexBrush-Regular.ttf",
+                 "Fonts/Capture_it_2.ttf", "Fonts/FFF_Tusj.ttf", "Fonts/Pacifico.ttf", "Fonts/SEASRN__.ttf"]
 
 # Formatting the SQL data so the text object can be created
 first_list = [list(tuple) for tuple in first_tuple_list]
@@ -33,10 +33,10 @@ for project in first_list:
         project[3][i] = int(project[3][i], 16)*17
 
 # Creating the text objects(still inside the for cycle :) )
-    text = Text(project[0], (project[1] * 2) / 1000, project[3], fonttype_list[random.randint(0, len(fonttype_list)-1)], project[1]/100*2.7)
+    text = Text(project[0], int((project[1] * 2) / 400), project[3], random.choice(fonttype_list), project[1]/100*2.7)
     text.calculate_length(picture)
 
 # Sort the class list based on the object attribute size, which is based on the desired factor(budget)
 Text.order_list()
-
-
+# Na itt az ordered_list készen, már csak ki kell íratni a randommal. A fonttype_list-re nem fog hibát kiírni, megjavítottam :D
+picture.save("SecondAssignment.png")
