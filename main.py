@@ -4,9 +4,6 @@ from PIL import ImageDraw
 from sqlhandling import Sql
 from text import Text
 
-
-picture = Image.new("RGB", (1024, 1024), "white")
-
 Sql.openDataBase('TothBalint', 'postgres', 'localhost', 'Fuzzwktrka88bcykjypt')
 Sql.writeQuery(''' SELECT company_name as "Companies", count(company_name) as "Projects" FROM project
 GROUP BY company_name ORDER BY count(company_name) DESC''')
@@ -34,6 +31,8 @@ for color_list in first_list: # [company_name, projects,  [(hex1,), (hex2)...]]
     else:
         continue
 
+picture = Image.new("RGB", (400, 1000), "white")
+
 for text_info in first_list:
     text = Text(text_info[0], text_info[1]*5, tuple(text_info[2]), "Fonts/Capture_it.ttf", 255)
 
@@ -44,8 +43,17 @@ Text.order_list()
 for text in Text.ordered_list:
     text.findPlace()
 
+how_high = Text.ordered_list[-1].y + Text.ordered_list[-1].size
+how_wide = Text.ordered_list[0].length
+
+picture = Image.new("RGB", (how_wide, how_high), "white")
+
 for text in Text.ordered_list:
     picture = text.place(picture)
+
+title = Text("Porn_Stars", 40, (255, 0, 0), "Fonts/Capture_it.ttf", 255)
+title.calculate_length(picture)
+title.x = how_high - title.length
+title.y = 0
+picture = title.place(picture, 90)
 picture.save("perszehogyjo.png")
-
-
