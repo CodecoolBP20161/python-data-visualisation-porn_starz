@@ -34,7 +34,7 @@ for color_list in first_list: # [company_name, projects,  [(hex1,), (hex2)...]]
 picture = Image.new("RGB", (400, 1000), "white")
 
 for text_info in first_list:
-    text = Text(text_info[0], text_info[1]*5, tuple(text_info[2]), "Fonts/Capture_it.ttf", 255)
+    text = Text(text_info[0], text_info[1]*5, text_info[2], "Fonts/Capture_it.ttf", 255)
 
 for text in Text.text_object_list:
     text.calculate_length(picture)

@@ -17,7 +17,7 @@ class Text():
 
         self.content = content
         self.size = size
-        self.color = color
+        self.color = tuple(color)
         if self.color == ():
             self.color = (0, 0, 0)
         self.font = font
