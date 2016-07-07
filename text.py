@@ -31,10 +31,10 @@ class Text():
     def place(self, img, rotate_rate=0):
 
         self.font_type = ImageFont.truetype(self.font, self.size)
-        img.rotate(rotate_rate, expand=1)
+        img = img.rotate(rotate_rate, expand=1)
         draw = ImageDraw.Draw(img)
         draw.text((self.x, self.y), self.content, self.color, self.font_type)
-        img.rotate(rotate_rate*(-1), expand=1)
+        img = img.rotate(rotate_rate*(-1), expand=1)
         return img
 
     def findPlace(self):
