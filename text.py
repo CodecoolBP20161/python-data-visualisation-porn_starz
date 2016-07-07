@@ -18,7 +18,10 @@ class Text():
         self.content = content
         self.size = size
         self.color = color
+        if self.color == ():
+            self.color = (0, 0, 0)
         self.font = font
+        self.font_type = None
         self.opacity = opacity
         self.length = 0
         self.y = 0
@@ -27,9 +30,10 @@ class Text():
 
     def place(self, img, rotate_rate=0):
 
+        self.font_type = ImageFont.truetype(self.font, self.size)
         img.rotate(rotate_rate, expand=1)
         draw = ImageDraw.Draw(img)
-        draw.text((self.x, self.y), self.content, self.color, self.font)
+        draw.text((self.x, self.y), self.content, self.color, self.font_type)
         img.rotate(rotate_rate*(-1), expand=1)
         return img
 
@@ -37,7 +41,7 @@ class Text():
 
         number_x = 0
 
-        for text in text.ordered_list:
+        for text in Text.ordered_list:
             if self.content == text.content:
                 break
             else:
@@ -47,16 +51,17 @@ class Text():
         if number_x == 0:
             y_coordinate = 0
         else:
-            for text in text.ordered_list[:number_x]:
-                y_coordinate += text.size[1]
+            for text in Text.ordered_list[:number_x]:
+                y_coordinate += text.size
         self.y = y_coordinate
 
-    def calculate_length(self):
+    def calculate_length(self, img):
 
+        draw = ImageDraw.Draw(img)
         font = ImageFont.truetype(self.font, self.size)
         content = self.content
         text_size = draw.textsize(content, font)
-        self.length = text_size[1]
+        self.length = text_size[0]
 
     @classmethod
     def order_list(cls):
@@ -64,7 +69,7 @@ class Text():
         list_of_lengths = []
         for text in cls.text_object_list:
             list_of_lengths.append(text.length)
-        list_of_lengths = reverse(sort(list_of_lengths))
+        list_of_lengths = reversed(sorted(list_of_lengths))
         for length in list_of_lengths:
             for text in cls.text_object_list:
                 if text.length == length:
