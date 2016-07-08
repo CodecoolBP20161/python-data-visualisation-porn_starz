@@ -1,5 +1,6 @@
 import psycopg2
 
+
 class Sql():
 
     conn = None

@@ -8,6 +8,7 @@ from PIL import ImageDraw
 # the x coordinates are fixed, the find_place instance method sets up all the y coordinates (in a for loop)
 # we use the place method, again in a for loop - all the text is written
 
+
 class Text():
 
     text_object_list = []
@@ -45,7 +46,7 @@ class Text():
             if self.content == text.content:
                 break
             else:
-               number_x += 1
+                number_x += 1
 
         y_coordinate = 0
         if number_x == 0:
