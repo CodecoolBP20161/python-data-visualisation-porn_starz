@@ -81,31 +81,57 @@ class Text():
 
     def occupyPlace(self):
 
-        for x in range(self.x, (self.x + self.length), Text.check_ratio[0]):
-            for y in range(self.y, (self.y+self.size), Text.check_ratio[1]):
+        for x in range(self.x, (self.x + self.length+1)):
+            for y in range(self.y, (self.y+self.size+1), Text.check_ratio[1]):
                 Text.not_empty_pixels.append([x, y])
-        for x in range(self.x, self.x + self.length):
+
+        for y in range(self.y, (self.y + self.size + 1)):
+            for x in range(self.y, (self.x + self.length + 1), Text.check_ratio[0]):
+                Text.not_empty_pixels.append([x, y])
+
+        for x in range(self.x, self.x + self.length+1):
             Text.not_empty_pixels.append([x, self.y+self.size])
-        for y in range(self.y, self.y + self.size):
+        for y in range(self.y, self.y + self.size+1):
             Text.not_empty_pixels.append([self.x + self.length, y])
 
     def checkOverLap(self):
 
         for x in range(self.x, (self.x + self.length)):
-            for y in range(self.y, self.y + self.size):
-                coordinates = [x, y]
-                if coordinates in Text.not_empty_pixels:
-                    return True
-                else:
-                    continue
+            coordinates = [x, self.y]
+            if coordinates in Text.not_empty_pixels:
+                return True
+            else:
+                continue
+
+        for x in range(self.x, (self.x + self.length)):
+            coordinates = [x, self.y+self.size]
+            if coordinates in Text.not_empty_pixels:
+                return True
+            else:
+                continue
+
+        for y in range(self.y, (self.y + self.size)):
+            coordinates = [self.x, y]
+            if coordinates in Text.not_empty_pixels:
+                return True
+            else:
+                continue
+
+        for y in range(self.y, (self.y + self.size)):
+            coordinates = [self.x + self.length, y]
+            if coordinates in Text.not_empty_pixels:
+                return True
+            else:
+                continue
+
         return False
 
     def randomPlace(self, img):
 
         placed = False
         while not placed:
-            self.x = random.randint(0, 5000-self.length)
-            self.y = random.randint(0, 5000-self.size)
+            self.x = random.randint(100, 1100-self.length)
+            self.y = random.randint(100, 1100-self.size)
             self.calculate_length(img)
             is_overlap = self.checkOverLap()
             if is_overlap is False:
